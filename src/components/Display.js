@@ -10,16 +10,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Fade from '@material-ui/core/Fade';
 import Link from '@material-ui/core/Link';
+import myimage from '../img/default-user.png'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://github.com/FauzanAr">
-        Fauzan and Friend
+        Magenta
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -30,47 +32,53 @@ function Copyright() {
 function DisplayData(props){
   const { classes } = props.classes;
   return (
-    <Container className={classes.cardGrid} maxWidth="md">
-      {/* End hero unit */}
-      <Grid container spacing={4}>
-        {cards.map((card) => (
-          <Grid item key={card} xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardMedia
-                className={classes.cardMedia}
-                image="https://picsum.photos/200"
-                title="Image title"
-              />
-              <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Heading
-                </Typography>
-                <Typography>
-                  This is a media card. You can use this section to describe the content.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  View
-                </Button>
-                <Button size="small" color="primary">
-                  Edit
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    <Fade in={true} timeout={500}>
+      <Container className={classes.cardGrid} maxWidth="md">
+        {/* End hero unit */}
+        <Grid container spacing={4}>
+          {cards.map((card) => (
+            <Grid item key={card} xs={12} sm={6} md={4}>
+              <Card className={classes.card}>
+                <CardMedia
+                  className={classes.cardMedia}
+                  // image="https://bit.ly/2W11VbL"
+                  src = {myimage}
+                  component = "img"
+                  title="Profile Photo"
+                />
+                <CardContent className={classes.cardContent}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Heading
+                  </Typography>
+                  <Typography>
+                    This is a media card. You can use this section to describe the content.
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    View
+                  </Button>
+                  <Button size="small" color="primary">
+                    Edit
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Fade>
   );
 }
 
 function AddData(props) {
   const { classes } = props.classes
   return (
-    <Container className={classes.cardGrid} maxWidth="md">
-      <h1>Hello</h1>
-    </Container>
+    <Fade in={true} timeout={500}>
+      <Container className={classes.cardGrid} maxWidth="md">
+        <h1>Hello</h1>
+      </Container>
+    </Fade>
   );
 }
 
@@ -95,7 +103,10 @@ const useStyles = theme => ({
     flexDirection: 'column',
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '5%', // 16:9
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    paddingBottom: '10%'
   },
   cardContent: {
     flexGrow: 1,
@@ -150,7 +161,7 @@ class Display extends Component {
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 SMK SPK
               </Typography>
-              <Typography variant="h5" align="center" color="textSecondary" paragraph>
+              <Typography variant="body1" align="center" color="textSecondary" paragraph>
                 SMK SPK Merupakan sebuah SMK bertaraf internasional yang sudah melalang buana di
                 Indonesia sejak tahun 1872 yang didirikan oleh Belanda bertujuan untuk mencerdaskan
                 bangsa Belanda yang berada di Indonesia untuk sementara waktu.
