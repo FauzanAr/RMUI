@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Album from './components/Display';
+import Display from './components/Display';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Album />
+    <Display />
   </React.StrictMode>,
   document.getElementById('root')
 );
