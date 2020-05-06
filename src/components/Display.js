@@ -14,7 +14,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Fade from '@material-ui/core/Fade';
 import Link from '@material-ui/core/Link';
-import myimage from '../img/default-user.png'
+import myimage from '../img/default-user.png';
+import { connect } from 'react-redux';
+import { fetchData } from '../store/actions/data';
 
 function Copyright() {
   return (
@@ -30,14 +32,15 @@ function Copyright() {
 }
 
 function DisplayData(props){
-  const { classes } = props.classes;
+  const { classes, data } = props.classes;
+  let i = 1;
   return (
-    <Fade in={true} timeout={500}>
+    <Fade in={true} timeout={1000}>
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
+          {data.map((dat) => (
+            <Grid item key={dat.id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardMedia
                   className={classes.cardMedia}
@@ -47,11 +50,12 @@ function DisplayData(props){
                   title="Profile Photo"
                 />
                 <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Heading
+                <Typography gutterBottom variant="h6" component="h2">
+                    #{i++} {dat.nama_mahasiswa}
                   </Typography>
+                  <br></br>
                   <Typography>
-                    This is a media card. You can use this section to describe the content.
+                    Score : {dat.score}
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -74,9 +78,12 @@ function DisplayData(props){
 function AddData(props) {
   const { classes } = props.classes
   return (
-    <Fade in={true} timeout={500}>
+    <Fade in={true} timeout={1000}>
       <Container className={classes.cardGrid} maxWidth="md">
-        <h1>Hello</h1>
+        {/* <h1>{data.map((data) => (
+          data.id
+        ))}</h1> */}
+        Hi
       </Container>
     </Fade>
   );
@@ -117,28 +124,24 @@ const useStyles = theme => ({
   },
 });
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 class Display extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      isDisplay: false,
-      nama_mahasiswa:"", 
-      ipk:"", 
-      tagihan_listrik:"", 
-      prestasi:"", 
-      bahasa_asing:"", 
-      penghasilan_orangtua:""
-    }
 
-    this.handleDisplay = this.handleDisplay.bind(this);
+  state = { isDisplay: false };
+
+  componentDidMount(){
+    this.props.dispatch(fetchData());
   }
 
+  // handleDisplay(isDisplay){
+  //   // this.setState(state => ({
+  //   //   isDisplay: !state.isDisplay
+  //   // }));
+
+  //   this.setState({ isDisplay: !isDisplay});
+  // }
+
   handleDisplay(){
-    this.setState(state => ({
-      isDisplay: !state.isDisplay
-    }));
+    this.setState({ isDisplay: !this.state.isDisplay });
   }
 
   render(){
@@ -157,30 +160,32 @@ class Display extends Component {
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
-            <Container maxWidth="sm">
-              <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                SMK SPK
-              </Typography>
-              <Typography variant="body1" align="center" color="textSecondary" paragraph>
-                SMK SPK Merupakan sebuah SMK bertaraf internasional yang sudah melalang buana di
-                Indonesia sejak tahun 1872 yang didirikan oleh Belanda bertujuan untuk mencerdaskan
-                bangsa Belanda yang berada di Indonesia untuk sementara waktu.
-              </Typography>
-              <div className={classes.heroButtons}>
-                <Grid container spacing={2} justify="center">
-                  <Grid item>
-                    <Button variant="contained" color="primary" disabled={this.state.isDisplay} onClick={this.handleDisplay}>
-                      Tambah data
-                    </Button>
+            <Fade in = {true} timeout={1500}>
+              <Container maxWidth="sm">
+                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                  SMK SPK
+                </Typography>
+                <Typography variant="body1" align="center" color="textSecondary" paragraph>
+                  SMK SPK Merupakan sebuah SMK bertaraf internasional yang sudah melalang buana di
+                  Indonesia sejak tahun 1872 yang didirikan oleh Belanda bertujuan untuk mencerdaskan
+                  bangsa Belanda yang berada di Indonesia untuk sementara waktu.
+                </Typography>
+                <div className={classes.heroButtons}>
+                  <Grid container spacing={2} justify="center">
+                    <Grid item>
+                      <Button variant="contained" color="primary" disabled={this.state.isDisplay} onClick={() => this.handleDisplay()}>
+                        Tambah data
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button variant="contained" color="primary" disabled={!this.state.isDisplay} onClick={() => this.handleDisplay()}>
+                        Lihat beasiswa
+                      </Button>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <Button variant="contained" color="primary" disabled={!this.state.isDisplay} onClick={this.handleDisplay}>
-                      Lihat beasiswa
-                    </Button>
-                  </Grid>
-                </Grid>
-              </div>
-            </Container>
+                </div>
+              </Container>
+            </Fade>
           </div>
           {
             this.state.isDisplay
@@ -201,4 +206,11 @@ class Display extends Component {
   }
 }
 
-export default withStyles(useStyles)(Display);
+const mapStateToProps = state => ({
+    isFetchSuccess: state.data.isFetchSuccess,
+    isFetching: state.data.isFetching,
+    isFetchFailure: state.data.isFetchFailure,
+    data: state.data.data
+});
+
+export default withStyles(useStyles)(connect(mapStateToProps)(Display));
