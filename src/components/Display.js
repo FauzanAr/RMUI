@@ -14,10 +14,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Fade from '@material-ui/core/Fade';
 import Link from '@material-ui/core/Link';
-import TextField from "@material-ui/core/TextField";
 import myimage from '../img/default-user.png';
 import { connect } from 'react-redux';
 import { fetchData } from '../store/actions/data';
+import AddData from './AddData';
 
 function Copyright() {
   return (
@@ -75,73 +75,6 @@ function DisplayData(props){
   );
 }
 
-function AddData(props) {
-  const { classes } = props.classes
-  return (
-    <Fade in={true} timeout={1000}>
-      <Container className={classes.cardGrid} maxWidth="md">
-        <Typography component="h3" variant="h6" align="center" color="textPrimary" gutterBottom>
-          Tambah Data Baru
-        </Typography>
-        <TextField
-          variant = "outlined"
-          margin = "normal"
-          fullWidth
-          id = "nama_mahasiswa"
-          label = "Nama Mahasiswa"
-          name = "nama_mahasiswa"
-          // onChange = {this.handleEmailChange}
-        />
-        <TextField 
-          variant = "outlined"
-          margin = "normal"
-          fullWidth
-          id = "ipk"
-          label = "IPK"
-          type = "number"
-          name = "ipk"
-        />
-        <TextField 
-          variant = "outlined"
-          margin = "normal"
-          fullWidth
-          id = "tagihan_listrik"
-          name = "tagihan_listrik"
-          label = "Tagihan Listrik"
-          type = "number"
-        />
-        <TextField
-          variant = "outlined"
-          margin = "normal"
-          fullWidth
-          id = "prestasi"
-          name = "prestasi"
-          label = "Prestasi Akademik"
-          type = "number"
-        />
-        <TextField
-          variant = "outlined"
-          margin = "normal"
-          fullWidth
-          id = "bahasa_asing"
-          name = "bahasa_asing"
-          label = "Kemampuan Bahasa Asing"
-          type = "number"
-        />
-        <TextField
-          variant = "outlined"
-          margin = "normal"
-          fullWidth
-          id = "penghasilan_orangtua"
-          name = "penghasilan_orangtua"
-          label = "Penghasilan Orang Tua"
-          type = "number"
-        />
-      </Container>
-    </Fade>
-  );
-}
-
 const useStyles = theme => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -179,7 +112,9 @@ const useStyles = theme => ({
 
 class Display extends Component {
 
-  state = { isDisplay: false };
+  state = { 
+    isDisplay: false,
+  };
 
   componentDidMount(){
     this.props.dispatch(fetchData());
@@ -234,7 +169,7 @@ class Display extends Component {
           </div>
           {
             this.state.isDisplay
-            ? <AddData classes = {this.props}/>
+            ? <AddData isDisplay = {this.state.isDisplay}/>
             : <DisplayData classes={this.props}/>
           }
         </main>
@@ -255,7 +190,7 @@ const mapStateToProps = state => ({
     isFetchSuccess: state.data.isFetchSuccess,
     isFetching: state.data.isFetching,
     isFetchFailure: state.data.isFetchFailure,
-    data: state.data.data
+    data: state.data.data,
 });
 
 export default withStyles(useStyles)(connect(mapStateToProps)(Display));
